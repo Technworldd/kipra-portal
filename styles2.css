@@ -1,0 +1,137 @@
+*{  
+    margin: 0;
+    padding: 0;
+    box-sizing:border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+html{
+  scroll-behavior: smooth;
+}
+header{
+    display:flex;
+   align-items:center;
+   background-color:rgba(176, 226, 244, 0.674) ;
+   height:100px;
+
+}
+nav a{
+  text-decoration: none;
+  font-weight: bold;
+  margin-right: 12px; 
+  color: #af1313;
+  padding-bottom: 3px;
+  transition:  .3s; 
+  font-size: 1.6rem;
+  margin: 0 3rem; 
+}
+nav a:hover,nav a.active{
+  border-bottom: 2px solid rgb(96, 134, 150);
+  box-shadow: 0 0 10px rgb(213, 2, 255);
+}
+
+button.logout-button {
+  position: absolute;
+  top: 30px;
+  right: 6.cm;
+  background-color: green;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button.logout-button:hover {
+  background-color: darkgreen;
+}
+.gt{
+  position: absolute;
+  top: 20px;
+  right: -.5cm;
+  /* background-color: green; */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer; 
+}
+.container {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.5cm;
+}
+
+.watermark {
+  position: fixed;
+  top: 70%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0.2; /* Adjust the opacity as needed */
+  pointer-events: none; /* This ensures the image doesn't block interactions */
+}
+
+.watermark img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.dropdown {
+  margin: 0 10px;
+}
+.dropdown select{
+  width: 400px; /* Adjust the width as needed */
+}
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+select {
+  padding: 10px;
+  font-size: 15px;
+  width: 200px;
+}
+
+.search-button-container {
+  text-align: center;
+  margin-top: 38px;
+  margin-bottom:1.7cm;
+}
+
+.search-button {
+  padding: 10px 20px;
+  font-size: 12px;
+}
+
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+table, th, td {
+  border: 1px solid #ccc;
+}
+
+th, td {
+  padding: 10px;
+  text-align: left;
+}
+
+th {
+  background-color: #f0f0f0;
+}
+.hidden {
+  display: none;
+}

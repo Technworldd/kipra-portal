@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="style3.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" 
+    integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+
+  <header>
+    <nav>
+            <a href="welcome.html">Home</a>
+            <a href="prices.html" >Prices</a>
+            <a href="sell.html">Sell</a>
+            <a href="#cultivate">Cultivate</a>
+            <a href="contact us">Contact Us</a>  
+    </nav>
+    <div class="logout">
+      <button class="logout-button" onclick="logout()">Logout</button>
+    </div>
+    <div class="gt">
+      <div id="google_translate_element"></div>
+  </div>
+</header>
+
+<label for="city-select">Select a city :</label>
+<select id="city-select" onchange="fetchWeather()">
+  <option value="Agra">Agra, Uttar Pradesh</option>
+  <option value="Ahmedabad">Ahmedabad, Gujarat</option>
+  <option value="Bangalore">Bangalore, Karnataka</option>
+  <option value="Bhopal">Bhopal, Madhya Pradesh</option>
+  <option value="Chennai">Chennai, Tamil Nadu</option>
+  <option value="Delhi">Delhi</option>
+  <option value="Faridabad">Faridabad, Haryana</option>
+  <option value="Ghaziabad">Ghaziabad, Uttar Pradesh</option>
+  <option value="Hyderabad">Hyderabad, Telangana</option>
+  <option value="Indore">Indore, Madhya Pradesh</option>
+  <option value="Jaipur">Jaipur, Rajasthan</option>
+  <option value="Kanpur">Kanpur, Uttar Pradesh</option>
+  <option value="Kolkata">Kolkata, West Bengal</option>
+  <option value="Lucknow">Lucknow, Uttar Pradesh</option>
+  <option value="Ludhiana">Ludhiana, Punjab</option>
+  <option value="Meerut">Meerut, Uttar Pradesh</option>
+  <option value="Mumbai">Mumbai, Maharashtra</option>
+  <option value="Nagpur">Nagpur, Maharashtra</option>
+  <option value="Nashik">Nashik, Maharashtra</option>
+  <option value="Patna">Patna, Bihar</option>
+  <option value="Pimpri-Chinchwad">Pimpri-Chinchwad, Maharashtra</option>
+  <option value="Pune">Pune, Maharashtra</option>
+  <option value="Thane">Thane, Maharashtra</option>
+  <option value="Vadodara">Vadodara, Gujarat</option>
+  <option value="Visakhapatnam">Visakhapatnam, Andhra Pradesh</option>
+</select>
+
+<div id="weather-container">
+  <h2>Weather Information</h2>
+  <div id="city"></div>
+  <div id="temperature"></div>
+  <div id="description"></div>
+  <div id="weather-icon"></div>
+</div>
+
+<div class="watermark">
+  <img src="download-removebg-preview.png" alt="Watermark">
+</div>
+
+  <div class="slot-calendar">
+    <h1>Slot Booking System</h1>
+    
+    <div class="calendar" id="october">
+      <h2>October 2023</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Sun</th>
+            <th>Mon</th>
+            <th>Tue</th>
+            <th>Wed</th>
+            <th>Thu</th>
+            <th>Fri</th>
+            <th>Sat</th>
+          </tr>
+        </thead>
+        <tbody id="october-dates"></tbody>
+      </table>
+    </div>
+
+    <div class="calendar" id="november">
+      <h2>November 2023</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Sun</th>
+            <th>Mon</th>
+            <th>Tue</th>
+            <th>Wed</th>
+            <th>Thu</th>
+            <th>Fri</th>
+            <th>Sat</th>
+          </tr>
+        </thead>
+        <tbody id="november-dates"></tbody>
+      </table>
+    </div>
+    <div class="booking-details">
+      <h2>Booking Details</h2>
+      <div class="selected-slot">
+        Selected Slot: <span id="selected-slot">None</span>
+      </div>
+      <button class="book-button" disabled>Book Slot</button>
+    </div>
+  </div>
+
+  <footer class="footer">
+		<div class="container">
+			<div class="row">
+				<div class="footer-col">
+					<h4>company</h4>
+					<ul>
+						<li><a href="#">about us</a></li>
+						<li><a href="#">our services</a></li>
+						<li><a href="#">privacy policy</a></li>
+						<li><a href="#">affiliate program</a></li>
+					</ul>
+				</div>
+				<div class="footer-col">
+					<h4>get help</h4>
+					<ul>
+						<li><a href="#">FAQ</a></li>
+						<li><a href="#">order status</a></li>
+						</ul>
+				</div>
+				<div class="footer-col">
+					<h4>follow us</h4>
+					<div class="social-links">
+						<a href="#"><i class="fab fa-facebook-f"></i></a>
+						<a href="#"><i class="fab fa-twitter"></i></a>
+						<a href="#"><i class="fab fa-instagram"></i></a>
+						<a href="#"><i class="fab fa-linkedin-in"></i></a>
+					</div>
+				</div>
+			</div>
+		</div>
+   </footer>
+	
+   <script>
+    const apiKey = '02898a6867b20e14ddd9ef7c3f828471'; // Replace with your OpenWeatherMap API key
+    const apiUrl = 'https://api.openweathermap.org/data/2.5/weather';
+    
+    function fetchWeather() {
+    const selectedCity = document.getElementById('city-select').value;
+  
+    if (selectedCity) {
+      const params = {
+        q: selectedCity + ',in',
+        appid: apiKey,
+        units: 'metric'
+      };
+  
+      const url = `${apiUrl}?${new URLSearchParams(params)}`;
+  
+      fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          const temperature = data.main.temp;
+          const description = data.weather[0].description;
+          const iconName = data.weather[0].icon;
+          const cityName = data.name;
+
+          document.getElementById('temperature').innerText = `Temperature: ${temperature}°C`;
+          document.getElementById('description').innerText = `Description: ${description}`;
+          document.getElementById('city').innerText = `City: ${cityName}`;
+  
+          const iconUrl = `http://openweathermap.org/img/wn/${iconName}.png`;
+          const weatherIcon = document.getElementById('weather-icon');
+          weatherIcon.innerHTML = `<img src="${iconUrl}" alt="Weather icon" />`;
+        })
+        .catch(error => console.error('Error fetching weather data:', error));
+    }
+  }
+  
+    </script>
+     <script>
+    function generateDatesAndSlots(month) 
+    {
+        const calendar = document.getElementById(month);
+        const datesContainer = document.getElementById(`${month}-dates`);
+
+        const totalDaysInMonth = 31;  // Update this with the actual total days in the month
+        const firstDayOfMonth = new Date(`2023-${month}-01`).getDay();
+
+        // Clear the existing content
+        datesContainer.innerHTML = '';
+
+        let date = 1;
+
+        for (let i = 0; i < 6; i++) 
+        {
+            const row = document.createElement('tr');
+
+            for (let j = 0; j < 7; j++) {
+            const cell = document.createElement('td');
+            if (i === 0 && j < firstDayOfMonth) {
+                // Empty cell before the first day of the month
+                cell.textContent = '';
+            } else if (date <= totalDaysInMonth) {
+                // Display the date
+                const dateBtn = document.createElement('button');
+                dateBtn.classList.add('date-button');
+                dateBtn.textContent = date;
+                dateBtn.dataset.date = date;  // Store the date as a data attribute
+
+                dateBtn.addEventListener('click', (event) => {
+                const clickedDate = event.target.dataset.date;
+                const allSlots = document.querySelectorAll('.slots');
+                allSlots.forEach(slotContainer => {
+                    slotContainer.style.display = 'none';
+                });
+
+                const slotsContainer = document.getElementById(`${month}-${clickedDate}-slots`);
+                slotsContainer.style.display = 'block';
+
+                // Show the "Book Slot" button
+                const bookButton = document.querySelector('.book-button');
+                bookButton.removeAttribute('disabled');
+                });
+
+                cell.appendChild(dateBtn);
+                date++;
+
+                const slotsContainer = document.createElement('div');
+                slotsContainer.id = `${month}-${date}-slots`;
+                slotsContainer.classList.add('slots');
+                slotsContainer.style.display = 'none';
+
+                // Generate 24 slots for each date
+                for (let k = 8; k <= 20; k++) 
+                {
+                for (let m = 0; m < 2; m++) 
+                {  // For 30-minute intervals
+                    const slotBtn = document.createElement('button');
+                    slotBtn.classList.add('slot');
+                    slotBtn.textContent = `${k < 10 ? '0' + k : k}:${m === 0 ? '00' : '30'}`;
+
+                    slotBtn.addEventListener('click', () => {
+                    const selectedSlot = document.getElementById('selected-slot');
+                    selectedSlot.textContent = `Booked - ${slotBtn.textContent}`;
+                    });
+
+                    slotsContainer.appendChild(slotBtn);
+                }
+                }
+
+                calendar.appendChild(slotsContainer);
+            }
+            row.appendChild(cell);
+            }
+
+            datesContainer.appendChild(row);
+
+            if (date > totalDaysInMonth) {
+            break;
+            }
+        }
+    }
+
+// Generate dates and slots for October and November
+generateDatesAndSlots('october');
+generateDatesAndSlots('november');
+// Book Slot button action
+const bookButton = document.querySelector('.book-button');
+bookButton.addEventListener('click', () => {
+  const selectedSlot = document.getElementById('selected-slot');
+
+  if (selectedSlot.textContent !== 'None') {
+    alert('Slot booked successfully!');
+    const bookedSlot = document.querySelector('.slots button.selected');
+    if (bookedSlot) {
+      bookedSlot.classList.add('booked-slot');
+    }
+  } else {
+    alert('Please select a slot.');
+  }
+});
+  </script>
+  <script>
+    function logout() {
+      localStorage.removeItem('loggedIn');
+      window.location.href = 'index.html';  // Redirect to the login page after logout
+    }
+  </script>
+  <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+  <script>
+    function googleTranslateElementInit(){
+      new google.translate.TranslateElement(
+        {pageLanguage: 'en'},
+        'google_translate_element'
+      );
+    }
+  </script>
+</body>
+</html>

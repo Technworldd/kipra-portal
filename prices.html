@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles2.css">
+  <title>Indian States and Districts</title>
+</head>
+<body>
+  <header>
+    <nav>
+            <a href="welcome.html">Home</a>
+            <a href="prices.html" >Prices</a>
+            <a href="sell.html">Sell</a>
+            <a href="#cultivate">Cultivate</a>
+            <a href="contact us">Contact Us</a>  
+    </nav>
+    <div class="logout">
+      <button class="logout-button" onclick="logout()">Logout</button>
+  </div>
+    <div class="gt">
+      <div id="google_translate_element"></div>
+  </div>
+</header>
+
+  <div class="container">
+    <div class="dropdown">
+      <label for="state-dropdown">Select a state:</label>
+      <select id="state-dropdown" onchange="updateDistricts()">
+        <option value="" disabled selected>Select a state</option>
+        <option value="Andhra_Pradesh">Andhra Pradesh</option>
+        <option value="Arunachal_Pradesh">Arunachal Pradesh</option>
+      <option value="Assam">Assam</option>
+      <option value="Bihar">Bihar</option>
+      <option value="Chhattisgarh">Chhattisgarh</option>
+      <option value="Goa">Goa</option>
+      <option value="Gujarat">Gujarat</option>
+      <option value="Haryana">Haryana</option>
+      <option value="Himachal_Pradesh">Himachal Pradesh</option>
+      <option value="Jharkhand">Jharkhand</option>
+      <option value="Karnataka">Karnataka</option>
+      <option value="Kerala">Kerala</option>
+      <option value="Madhya_Pradesh">Madhya Pradesh</option>
+      <option value="Maharashtra">Maharashtra</option>
+      <option value="Manipur">Manipur</option>
+      <option value="Meghalaya">Meghalaya</option>
+      <option value="Mizoram">Mizoram</option>
+      <option value="Nagaland">Nagaland</option>
+      <option value="Odisha">Odisha</option>
+      <option value="Punjab">Punjab</option>
+      <option value="Rajasthan">Rajasthan</option>
+      <option value="Sikkim">Sikkim</option>
+      <option value="Tamil_Nadu">Tamil Nadu</option>
+     <option value="Telangana">Telangana</option>
+      <option value="Tripura">Tripura</option>
+      <option value="Uttar_Pradesh">Uttar Pradesh</option>
+      <option value="Uttarakhand">Uttarakhand</option>
+      <option value="West_Bengal">West Bengal</option>
+      <option value="Andaman_and_Nicobar_Islands">Andaman and Nicobar Islands</option>
+      <option value="Chandigarh">Chandigarh</option>
+      <option value="Dadra_and_Nagar_Haveli_and_Daman_and_Diu">Dadra and Nagar Haveli and Daman and Diu</option>
+      <option value="Lakshadweep">Lakshadweep</option>
+      <option value="Delhi">Delhi</option>
+      <option value="Puducherry">Puducherry</option>
+      </select>
+    </div>
+
+    <div class="dropdown">
+      <label for="district-dropdown">Select a district:</label>
+      <select id="district-dropdown" onchange="updateTable()" disabled>
+        <option value="" disabled selected>Select a district</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="search-button-container">
+    <button>Search</button>
+  </div>
+
+<div class="watermark">
+  <img src="download-removebg-preview.png" alt="Watermark">
+</div>
+
+  <div id="table-container" class="hidden">
+    <table id="food-grain-table">
+      <thead>
+        <tr>
+          <th>S.No</th>
+          <th>Crop</th>
+          <th>Price (per  Quintal)</th>
+          <th> Our Price</th>
+        </tr>
+      </thead>
+      <tbody id="table-body">
+        <!-- Table rows will be dynamically populated based on district selection -->
+      </tbody>
+    </table>
+  </div>
+
+<script>
+ const foodGrainData = {
+  Tamil_Nadu: {
+    Coimbatore: [
+      { sno: '1', crop: 'Rice', price: '₹2040',our_price:'₹2300' },
+      { sno: '2', crop: 'Wheat', price: '-',our_price:'-' },
+      { sno: '3', crop: 'Pulses', price: '₹2712',our_price:'₹5050' },
+      { sno: '4', crop: 'Jute', price: '₹1575',our_price:'₹1735' },
+      { sno: '5', crop: 'Cocount', price: '₹1200',our_price:'₹1478' },
+      { sno: '6', crop: 'Toria', price: '₹1780',our_price:'₹2300' }
+    ],
+    Chennai:[
+      { sno:'1', crop:'Rice',price:'₹2052',our_price:'₹2300'},
+      { sno:'2', crop:'Wheat',price:'-',our_price:'-'},
+      { sno:'3', crop: 'Pulses', price: '₹3170',our_price:'₹3597'},
+      {sno: '4', crop: 'Jute', price:'₹1570',our_price:'₹1990'},
+      { sno: '5', crop: 'Cocount', price: '₹1100',our_price:'₹1800'},
+      { sno: '6', crop: 'Toria', price: '₹1980',our_price:'₹2100'}
+    ],
+    Madhurai:[
+      { sno:'1', crop:'Rice',price:'₹2095',our_price:'₹2203'},
+      { sno:'2', crop:'Wheat',price:'-',our_price:'-'},
+      { sno:'3', crop: 'Pulses', price: '₹3071',our_price:'₹3600'},
+      {sno: '4', crop: 'Jute', price:'₹1670',our_price:'₹1910'},
+      { sno: '5', crop: 'Cocount', price: '₹1300',our_price:'₹1350'},
+      { sno: '6', crop: 'Toria', price: '₹1910',our_price:'₹2300'}
+    ]
+  },
+  Andhra_Pradesh:{
+    Krishna:[
+    { sno: '1', crop: 'Sona-Rice', price: '₹5455',our_price:'₹5690'},
+      { sno: '2', crop: 'Wheat', price: '-',our_price:'-'},
+      { sno: '3', crop: 'GroundNut', price: '₹2300',our_price:'₹2567'},
+      { sno: '4', crop: 'Moong', price: '₹3170',our_price:'₹3212'},
+      { sno: '5', crop: 'Urad', price: '₹2900',our_price:'₹3090'},
+      { sno: '6', crop: 'Sunflower', price: '₹2350',our_price:'₹2569'},
+      { sno: '7', crop: 'Soyabean-Yellow', price: '₹1440',our_price:'₹1567'},
+      { sno: '8', crop: 'Soyabean-black', price: '1400',our_price:'₹1789'},
+      { sno: '9', crop: 'Seasame ', price: '2900',our_price:'₹3078'}
+    ],
+    Visakhapatnam:[
+    { sno: '1', crop: 'Sona-Rice', price: '₹5050',our_price:'₹5100'},
+      { sno:' 2', crop: 'Wheat', price: '-',our_price:'-'},
+      { sno: '3', crop: 'GroundNut', price: '₹2700',our_price:'₹3000'},
+      { sno: '4', crop: 'Moong', price: '₹4400',our_price:'₹4178'},
+      { sno: '5', crop: 'Urad', price: '₹4625',our_price:'₹4765'},
+      { sno:'6', crop:'mustard',price:'₹4625',our_price:'₹3100'},
+      { sno:'7', crop:'Jute',price:'₹1575',our_price:'₹1890'},
+    ],
+    Guntur:[
+    { sno:'1', crop:'mustard',price:'₹4195',our_price:'₹5050'},
+    { sn0:'2', crop:'Chilli',price:'₹5800',our_price:'₹5850'},
+    { sno:'3', crop:'maize',price:'₹1175',our_price:'₹1100'},
+    { sno:'4', crop:'Ragi',price:'₹965',our_price:'₹1022'},
+    { sno:'5', crop:'Tur',price:'₹315',our_price:'490'},
+    { sno:'6', crop:'Ground Nut',price:'₹4030',our_price:'₹4000'},
+    { sno:'7', crop:'Jowar-Hybrid',price:'₹880',our_price:'₹930'},
+    { sno:'8', crop:'Jowar-Maldandi',price:'₹1024',our_price:'₹1100'},
+    ],
+    Prakasam:[
+    { sno:'1', crop:'Tobacco',price:'₹1978',our_price:'₹2100'},
+    { sno:'2', crop:'peas',price:'₹790',our_price:'₹839'},
+    { sno:'3', crop:'Jowar-hybrid',price:'₹900',our_price:'₹921'},
+    { sno:'4', crop:'mustard',price:'₹4625',our_price:'₹4798'},
+    { sno:'5', crop:'urad',price:'₹4625',our_price:'₹4999'},
+    ],
+    Nellore:[
+    { sno:'1', crop:'Rice-Fine',price:'5127',our_price:'₹5359'},
+    { sno:'2', crop:'mustard',price:'₹3456',our_price:'₹3780'},
+    { sno:'3', crop:'Sugar Cane',price:'₹1245',our_price:'₹1789'},
+    { sno:'4', crop:'Ground Nut',price:'₹4040',our_price:'₹4789'},
+    { sno:'5', crop:'Sun flower',price:'₹2350',our_price:'₹2999'},
+    { sno:'6', crop:'Urad',price:'₹2900',our_price:'₹3100'},
+    { sno:'7', crop:'Moong',price:'₹3213',our_price:'₹3531'},
+    { sno:'8', crop:'seasame',price:'₹7680',our_price:'₹7989'},       
+    ]
+  },
+ };
+ function updateDistricts() {
+  const stateDropdown = document.getElementById('state-dropdown');
+  const districtDropdown = document.getElementById('district-dropdown');
+  const state = stateDropdown.value;
+
+  // Clear previous options
+  districtDropdown.innerHTML = '<option value="" disabled selected>Select a district</option>';
+
+  // Populate districts based on the selected state
+  const districts = Object.keys(foodGrainData[state] || {});
+  populateDropdown(districtDropdown, districts);
+
+  // Enable district dropdown
+  districtDropdown.disabled = false;
+}
+
+function updateTable() {
+  const districtDropdown = document.getElementById('district-dropdown');
+  const selectedDistrict = districtDropdown.value;
+
+  const tableContainer = document.getElementById('table-container');
+  const tableBody = document.getElementById('table-body');
+
+  // Clear previous table data
+  tableBody.innerHTML = '';
+
+  // Get food grain data for the selected district
+  const foodGrainInfo = foodGrainData[document.getElementById('state-dropdown').value][selectedDistrict];
+  if (foodGrainInfo) {
+    // Display the table if data is available for the selected district
+    tableContainer.classList.remove('hidden');
+
+    // Populate the table with food grain data
+    foodGrainInfo.forEach((info, index) => {
+      const row = tableBody.insertRow();
+      const cellSno = row.insertCell(0);
+      const cellCrop = row.insertCell(1);
+      const cellPrice = row.insertCell(2);
+      const cellOur_Price=row.insertCell(3);
+
+      cellSno.textContent = info.sno;
+      cellCrop.textContent = info.crop;
+      cellPrice.textContent = info.price;
+      cellOur_Price.textContent=info.our_price
+    });
+  } else {
+    // Hide the table if no data is available for the selected district
+    tableContainer.classList.add('hidden');
+  }
+}
+
+function populateDropdown(dropdown, options) {
+  options.forEach(option => {
+    const optionElement = document.createElement('option');
+    optionElement.value = option;
+    optionElement.textContent = option;
+    dropdown.appendChild(optionElement);
+  });
+}
+</script>
+<script>
+  function logout() {
+    localStorage.removeItem('loggedIn');
+    window.location.href = 'index.html';  // Redirect to the login page after logout
+  }
+</script>
+<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+  <script>
+    function googleTranslateElementInit(){
+      new google.translate.TranslateElement(
+        {pageLanguage: 'en'},
+        'google_translate_element'
+      );
+    }
+  </script>
+</body>
+</html>
